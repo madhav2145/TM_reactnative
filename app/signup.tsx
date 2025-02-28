@@ -1,6 +1,6 @@
-import { View, Text, Button, StyleSheet, TextInput } from 'react-native'
-import React, { useState } from 'react'
-import { useRouter } from 'expo-router'
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
+import { useRouter } from 'expo-router';
 
 const Signup = () => {
   const router = useRouter();
@@ -9,62 +9,191 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>SignUp</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
-      <Button title="Continue" onPress={() => router.push('/(home)/home')} />
-    </View>
-  )
-}
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoid}
+      >
+        <Text style={styles.title}>Create an Account</Text>
+        <Text style={styles.subtitle}>Join BusTracker Pro today!</Text>
+
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Email</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="you@example.com"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              placeholderTextColor="#8B9EB0"
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              placeholderTextColor="#8B9EB0"
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Confirm Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Re-enter your password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry
+              placeholderTextColor="#8B9EB0"
+            />
+          </View>
+
+          <TouchableOpacity 
+            style={styles.signupButton} 
+            onPress={() => router.push('/(home)/home')}
+          >
+            <Text style={styles.signupButtonText}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.busIconContainer}>
+          <View style={styles.busLine}></View>
+          <View style={styles.busIcon}>
+            <View style={styles.busBody}></View>
+            <View style={styles.busWindow}></View>
+            <View style={styles.busWheel1}></View>
+            <View style={styles.busWheel2}></View>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F0F4F8',
+  },
+  keyboardAvoid: {
+    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
     padding: 20,
   },
   title: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#0A3D91',
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#5A7184',
+    textAlign: 'center',
+    marginBottom: 25,
+  },
+  formContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
+    borderLeftWidth: 5,
+    borderLeftColor: '#D01C1F',
+  },
+  inputContainer: {
+    marginBottom: 15,
+  },
+  inputLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#0A3D91',
+    marginBottom: 5,
   },
   input: {
-    width: '100%',
-    height: 40,
-    borderColor: '#ccc',
+    height: 50,
+    borderColor: '#E1E8ED',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginVertical: 10,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    backgroundColor: '#F7FAFC',
   },
-  link: {
+  signupButton: {
+    backgroundColor: '#D01C1F',
+    borderRadius: 8,
+    height: 55,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  signupButtonText: {
+    color: '#FFFFFF',
     fontSize: 18,
-    color: 'blue',
-    marginVertical: 10,
+    fontWeight: 'bold',
   },
-})
+  busIconContainer: {
+    alignItems: 'center',
+    marginTop: 30,
+    position: 'relative',
+  },
+  busLine: {
+    height: 2,
+    backgroundColor: '#D8DEE5',
+    width: '80%',
+    position: 'absolute',
+    bottom: 10,
+  },
+  busIcon: {
+    width: 80,
+    height: 40,
+    position: 'relative',
+  },
+  busBody: {
+    width: 80,
+    height: 25,
+    backgroundColor: '#D01C1F',
+    borderRadius: 5,
+    position: 'absolute',
+    top: 0,
+  },
+  busWindow: {
+    width: 20,
+    height: 12,
+    backgroundColor: '#0A3D91',
+    position: 'absolute',
+    top: 5,
+    left: 10,
+    borderRadius: 2,
+  },
+  busWheel1: {
+    width: 12,
+    height: 12,
+    backgroundColor: '#333',
+    borderRadius: 6,
+    position: 'absolute',
+    bottom: 0,
+    left: 15,
+  },
+  busWheel2: {
+    width: 12,
+    height: 12,
+    backgroundColor: '#333',
+    borderRadius: 6,
+    position: 'absolute',
+    bottom: 0,
+    right: 15,
+  }
+});
 
-export default Signup
+export default Signup;
